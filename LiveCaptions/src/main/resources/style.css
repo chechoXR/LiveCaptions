@@ -1,0 +1,39 @@
+/* Hide scrollbar background */
+.scroll-pane .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* Scrollbar track (transparent background) */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+/* Scrollbar thumb (grabbable part) */
+.scroll-pane.scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent white */
+    -fx-background-radius: 5px;
+}
+
+/* Scrollbar when hovered */
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Scrollbar buttons (remove them) */
+.scroll-pane .increment-button,
+.scroll-pane .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+.scroll-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-background-radius: 5px;
+}
