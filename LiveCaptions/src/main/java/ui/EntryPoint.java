@@ -1,36 +1,39 @@
 package ui;
 
-import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 import javafx.application.Application;
-import javafx.event.Event;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
-public class EntryPoint extends Application {
+public class EntryPoint extends Application  implements NativeKeyListener {
 
 
-	 private static final double WINDOW_WIDTH = 700;	 private static final double WINDOW_HEIGHT = 200;  
+	 private static final double WINDOW_WIDTH = 700;	 private static final double WINDOW_HEIGHT = 200;
+     private Stage primaryStage;
+
 
 	public static void main(String[] args) {
 		System.out.println("Hola");
@@ -40,7 +43,8 @@ public class EntryPoint extends Application {
 	}
 
 	@Override
-	    public void start(Stage primaryStage) {
+	    public void start(Stage stage) {
+		this.primaryStage=stage;
 	     // Create a selectable text area
         TextArea captionText = new TextArea(
             "Live Captions Appear Here... áéíóú\n" +
@@ -100,7 +104,8 @@ public class EntryPoint extends Application {
 
         // Configure Stage
         primaryStage.setScene(scene);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setAlwaysOnTop(true);
 
         // Position window at bottom
@@ -108,8 +113,67 @@ public class EntryPoint extends Application {
         primaryStage.setX((Screen.getPrimary().getBounds().getWidth() - WINDOW_WIDTH) / 2);
         primaryStage.setY(screenHeight - WINDOW_HEIGHT - 50);
 
+        setupGlobalHotkey();
         primaryStage.show();
         
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			
+			@Override
+			public void handle(WindowEvent event) {
+				primaryStage.close();
+				
+				//Stops listening for Global shortcuts
+				try {
+					GlobalScreen.unregisterNativeHook();
+				} catch (NativeHookException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+        
+        
+        
 	}
+	
+	private void setupGlobalHotkey() {
+        try {
+            // Disable JNativeHook logs
+            LogManager.getLogManager().reset();
+            Logger.getLogger(GlobalScreen.class.getPackage().getName()).setLevel(Level.OFF);
+
+            // Register global key listener
+            GlobalScreen.registerNativeHook();
+            GlobalScreen.addNativeKeyListener(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void nativeKeyPressed(NativeKeyEvent e) {
+    	 // Detect CTRL + SHIFT (left) + C
+        boolean isAlt = (e.getModifiers() & NativeKeyEvent.ALT_MASK) != 0;
+        boolean isShift = (e.getModifiers() & NativeKeyEvent.SHIFT_L_MASK) != 0; // Left Shift
+        boolean isC = (e.getKeyCode() == NativeKeyEvent.VC_C);
+
+        if (isAlt && isShift && isC) {
+            // Toggle visibility of the JavaFX window
+        	Platform.runLater(() -> {
+        	    if (primaryStage.isIconified()) {
+        	        primaryStage.setIconified(false); // Restore window
+        	    } else {
+        	        primaryStage.setIconified(true); // Minimize window instead of hiding
+        	    }
+        	});
+        }
+    }
+
+    @Override
+    public void nativeKeyReleased(NativeKeyEvent e) {}
+
+    @Override
+    public void nativeKeyTyped(NativeKeyEvent e) {}
+
 	
 }
