@@ -96,7 +96,8 @@ public class EntryPoint extends Application {
         // Transparent scene
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.setFill(Color.TRANSPARENT);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        
+        //scene.getStylesheets().add(getClass().getResource("resources/style.css").toExternalForm());
 
         // Configure Stage
         primaryStage.setScene(scene);
