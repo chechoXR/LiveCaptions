@@ -134,18 +134,26 @@ public class LiveCaptionsApplication extends Application implements NativeKeyLis
 	    processQueue();
 	    logger.info("ProcessQueue started");
 	    
+	 // Pass the same queue to the listener
+        CaptionGenerator listener = new CaptionGenerator(textQueue);
+        listener.startListening();
+
+	    
 	    logger.info("Showing UI");
 		primaryStage.show();
 		logger.info("Now all should be up and running :D");
 		
 		// Test caption
-		queueText(
+		/*
+		queueText("\n Chechoooooooooooooooo");
+		
+		*/
+		 queueText(
 				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel feugiat dolor, mattis lacinia lorem. Nulla scelerisque, tortor eget suscipit consequat, erat metus euismod diam, at pretium sem diam eu libero. Aliquam elementum malesuada elit, ut semper ex interdum in. Duis eget arcu pharetra, aliquam sem a, interdum ante. Donec eros ipsum, pulvinar id sapien imperdiet, aliquam varius lacus. Cras bibendum neque sed purus scelerisque hendrerit. Nulla eget tortor rutrum, finibus velit sed, ullamcorper tortor. Nullam sollicitudin eget mi et tristique. Duis dignissim quis arcu a fringilla. Donec blandit rutrum nisi, in mattis ligula accumsan vel. Integer eu enim tincidunt, commodo urna in, auctor augue. Ut vestibulum eleifend fermentum. Vivamus sed nisi metus. Aenean in nulla lobortis, consequat leo vel, placerat risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent eu luctus nunc.\n"
 						+ "\n"
 						+ "Aenean non dolor non erat dictum viverra. Pellentesque tincidunt, sapien et tempor maximus, enim metus consectetur mi, quis pharetra arcu orci a erat. Maecenas eget luctus sapien. Curabitur consequat ex in elit facilisis, ut ultricies mi feugiat. In quis nulla tempor, aliquam neque sed, mollis dolor. Praesent mattis consequat felis ut dignissim. Duis tempus lectus in arcu fringilla, sed vestibulum felis pulvinar.\n"
 						+ "\n"
 						+ "Duis tempor tincidunt augue, a dignissim ipsum volutpat placerat. Donec ornare orci et est fringilla venenatis. Aenean gravida non lectus vitae faucibus. Mauris in nunc sodales, sodales urna non, tempor elit. Suspendisse ultricies ipsum a eros iaculis convallis. Sed mattis, nunc vitae consequat dignissim, augue libero lacinia enim, id imperdiet odio velit nec est. Phasellus eget ultricies est.");
-		queueText("\n Chechoooooooooooooooo");
 	}
 
 	/**
