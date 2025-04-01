@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "speech.endpoint",
+    "type": "java.lang.String",
+    "description": "This value has to be taken from azure resource"
+  },
+  {
+    "name": "speech.region",
+    "type": "java.lang.String",
+    "description": "This value has to be taken from azure resource"
+  },
+  {
+    "name": "speech.key",
+    "type": "java.lang.String",
+    "description": "This value has to be taken from azure resource"
+  }
+]}

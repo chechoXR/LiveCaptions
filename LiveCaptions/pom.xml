@@ -60,19 +60,26 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			</dependency>
+		</dependency>
 
 		<!-- Logback (Spring Boot Default Logger) -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
-		
+
 		<!-- Jnativehook (Global shortcuts) -->
 		<dependency>
 			<groupId>com.github.kwhat</groupId>
 			<artifactId>jnativehook</artifactId>
 			<version>2.2.2</version>
+		</dependency>
+
+		<!-- MS Cognitive Services-->
+		<dependency>
+			<groupId>com.microsoft.cognitiveservices.speech</groupId>
+			<artifactId>client-sdk</artifactId>
+			<version>1.42.0</version>
 		</dependency>
 	</dependencies>
 
